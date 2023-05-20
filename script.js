@@ -94,34 +94,57 @@ document
 
 ///// Attribute
 
-const logo = document.querySelector('.nav__logo');
-console.log(logo.src);
-console.log(logo.alt);
-console.log(logo.className);
+// const logo = document.querySelector('.nav__logo');
+// console.log(logo.src);
+// console.log(logo.alt);
+// console.log(logo.className);
 
-logo.alt = 'Beautiful minimalist logo';
+// logo.alt = 'Beautiful minimalist logo';
 
-/// No standard
-console.log(logo.designer);
-console.log(logo.getAttribute('designer'));
-console.log(logo.setAttribute('company', 'Bankist'));
+// /// No standard
+// console.log(logo.designer);
+// console.log(logo.getAttribute('designer'));
+// console.log(logo.setAttribute('company', 'Bankist'));
 
-console.log(logo.getAttribute('src'));
-console.log(logo.src);
+// console.log(logo.getAttribute('src'));
+// console.log(logo.src);
 
-// If there is a link they both attributes are absolutes
-const link = document.querySelector('.twitter-link');
-console.log(link.href);
-console.log(link.getAttribute('href'));
+// // If there is a link they both attributes are absolutes
+// const link = document.querySelector('.twitter-link');
+// console.log(link.href);
+// console.log(link.getAttribute('href'));
 
-///// Data attributes
-console.log(logo.dataset.versionNumber);
+// ///// Data attributes
+// console.log(logo.dataset.versionNumber);
 
-// Classes
-logo.classList.add('c');
-logo.classList.remove('c');
-logo.classList.toggle('c');
-logo.classList.contains('c'); /// not includes called in arrays
+// // Classes
+// logo.classList.add('c');
+// logo.classList.remove('c');
+// logo.classList.toggle('c');
+// logo.classList.contains('c'); /// not includes called in arrays
 
-// Dont use ,it would overwrite other classes
-logo.className = 'Martin';
+// // Dont use ,it would overwrite other classes
+// logo.className = 'Martin';
+
+/////// Types of events and Events handlers //////////
+
+// section1.scrollIntoview({ behavior: 'smooth' });
+
+const h1 = document.querySelector('h1');
+
+// h1.onmouseenter = function (e) {
+//   alert('addEventListener: You are reading the heading :D');
+// };
+
+const alertH1 = function (e) {
+  alert('addEventListener: Great! You are reading the heading');
+
+};
+
+h1.addEventListener('mouseenter', alertH1);
+
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
+
+/// <h1 onlick="alert"('HTML alert')"> alert en html
+
+///// Event bubbling and capturing
