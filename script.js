@@ -33,19 +33,21 @@ document.addEventListener('keydown', function (e) {
 /// Event propagation
 document.querySelector('.nav__link').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
-  console.log('LINK', e.target);
+  console.log('LINK', e.target, e.currentTarget);
 });
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
-  console.log('LINK', e.target);
+  console.log('LINK', e.target, e.currentTarget);
+
+  ///Stop propagation
+  // e.stopPropagation();
 });
 
 document.querySelector('.nav').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
-  console.log('LINK', e.target);
+  console.log('LINK', e.target, e.currentTarget);
 });
-
 
 //Event target
 
