@@ -67,29 +67,46 @@ const randomColor = () =>
   `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)} )`;
 
 document.querySelector('.nav__link').addEventListener('click', function (e) {
-  this.style.backgroundColor = randomColor();
-  console.log(e.target, e.currentTarget);
+  // this.style.backgroundColor = randomColor();
+  // console.log(e.target, e.currentTarget);
 });
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
-  this.style.backgroundColor = randomColor();
-  console.log(e.target, e.currentTarget);
+  // this.style.backgroundColor = randomColor();
+  // console.log(e.target, e.currentTarget);
 });
 
 document.querySelector('.nav').addEventListener('click', function (e) {
-  this.style.backgroundColor = randomColor();
-  console.log(e.target, e.currentTarget);
+  // this.style.backgroundColor = randomColor();
+  // console.log(e.target, e.currentTarget);
 });
 
 ////////////////////////////////////////////////
 // Page Navigations
 
-document.querySelectorAll('.nav__link').forEach(function (el) {
-  el.addEventListener('click', function (e) {
-    e.preventDefault(e);
-    const id = this.getattribute('href');
-  });
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+
+//1) Add event listener to common parent element
+//2) Determine what element originated the event
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
 });
+
+
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
