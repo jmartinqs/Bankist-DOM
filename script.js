@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -30,24 +32,67 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+///////////////////////////////////////////////
+
+/// Btn scrolling
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+
+  console.log(e.target.getBoundingClientRect());
+
+  console.log('Current scroll (x/y)', window.pageXOffset, pageYOffset);
+
+  console.log(
+    'Height/Width viewport',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+
+  window.scrollTo({
+    right: s1coords.top + window.pageYOffset,
+    left: s1coords.left + window.pageXOffset,
+    behavior: 'smooth',
+  });
+});
+
+///// Event delegation: Implementing Page Navegation
+
 /// Event propagation
+
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)} )`;
+
 document.querySelector('.nav__link').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
-  console.log('LINK', e.target, e.currentTarget);
+  console.log(e.target, e.currentTarget);
 });
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
-  console.log('LINK', e.target, e.currentTarget);
-
-  ///Stop propagation
-  // e.stopPropagation();
+  console.log(e.target, e.currentTarget);
 });
 
 document.querySelector('.nav').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
-  console.log('LINK', e.target, e.currentTarget);
+  console.log(e.target, e.currentTarget);
 });
+
+////////////////////////////////////////////////
+// Page Navigations
+
+document.querySelectorAll('.nav__link').forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    e.preventDefault(e);
+    const id = this.getattribute('href');
+  });
+});
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
 
 //Event target
 
@@ -151,7 +196,7 @@ document.querySelector('.nav').addEventListener('click', function (e) {
 /// old school of doing smooth scroll
 
 // const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
+// const section1 = document.querySelector('#section--1');
 
 // btnScrollTo.addEventListener('click', function (e) {
 //   const s1coords = section1.getBoundingClientRect();
@@ -212,12 +257,12 @@ const section1 = document.querySelector('#section--1');
 
 ///// Event propagation in practices
 
-const randomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
+// cambios de color con eventlistener click
 
-const randomColor = () =>
-  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)} )`;
+// const randomInt = (min, max) =>
+//   Math.floor(Math.random() * (max - min + 1) + min);
 
-console.log(randomColor(0, 255));
+// const randomColor = () =>
+//   `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)} )`;
 
-///
+// console.log(randomColor(0, 255));
