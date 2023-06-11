@@ -107,9 +107,7 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 
 ///////// Building a Tabbed component
-const tabs = document.querySelectorAll
-
-
+const tabs = document.querySelectorAll;
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
@@ -327,4 +325,3 @@ const tabs = document.querySelectorAll
 // const listItems = list.children;
 
 // console.log(listItems);
-
