@@ -107,7 +107,39 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 
 ///////// Building a Tabbed component
-const tabs = document.querySelectorAll;
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+/// Bad practices because its impractical with many elements
+// tabs.forEach(t => t.addEventListener('click', () => console.log('TAB')));
+
+tabsContainer.addEventListener('click', function (e) {
+  // We can use a closest method to make click the button possible
+  const clicked = e.target.closest('.operations__tab');
+
+  // Guard clause
+  if (!clicked) return;
+
+  // Active tab
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+
+  // Activate content area
+  // console.log(clicked.dataset.tab);
+  // document
+  //   .querySelector(`.operations__content--${clicked.dataset.tab}`)
+  //   .classList.add('operations__content--active');
+
+  const clickedTab = clicked.dataset.tab;
+  // Siempre establecer los const que sino falla
+  tabsContent.forEach(tabsContent => {
+    tabsContent.classList.remove('operations__content--active');
+    if (tabsContent.classList.contains(`operations__content--${clickedTab}`)) {
+      tabsContent.classList.add('operations__content--active');
+    }
+  });
+});
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
