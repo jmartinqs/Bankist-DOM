@@ -12,7 +12,8 @@ const section1 = document.querySelector('#section--1');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
-const navi = document.querySelector('.nav');
+const nav = document.querySelector('.nav');
+const windows = window;
 
 const openModal = function (e) {
   e.preventDefault();
@@ -45,7 +46,7 @@ btnScrollTo.addEventListener('click', function (e) {
 
   console.log(e.target.getBoundingClientRect());
 
-  console.log('Current scroll (x/y)', window.pageXOffset, pageYOffset);
+  console.log('Current scroll (x/y)', windows.pageXOffset, pageYOffset);
 
   console.log(
     'Height/Width viewport',
@@ -53,9 +54,9 @@ btnScrollTo.addEventListener('click', function (e) {
     document.documentElement.clientWidth
   );
 
-  window.scrollTo({
-    right: s1coords.top + window.pageYOffset,
-    left: s1coords.left + window.pageXOffset,
+  windows.scrollTo({
+    right: s1coords.top + windows.pageYOffset,
+    left: s1coords.left + windows.pageXOffset,
     behavior: 'smooth',
   });
 });
@@ -86,7 +87,7 @@ document.querySelector('.nav').addEventListener('click', function (e) {
 });
 
 ////////////////////////////////////////////////
-// Page Navigations
+// Page Navgations
 
 //1) Add event listener to common parent element
 //2) Determine what element originated the event
@@ -138,7 +139,6 @@ tabsContainer.addEventListener('click', function (e) {
 
 // Menu fade animation
 const handleHover = function (e) {
-
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
     const siblings = link.closest('.nav').querySelectorAll('.nav__link');
@@ -152,8 +152,20 @@ const handleHover = function (e) {
 };
 
 /// Passing argument into handler
-navi.addEventListener('mouseover', handleHover.bind(0.3));
-navi.addEventListener('mouseout', handleHover.bind(1));
+nav.addEventListener('mouseover', handleHover.bind(0.3));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+/////// Implementing a Sticky Navgation: The Scroll Effect
+const scrollCords = section1.getBoundingClientRect();
+
+// a bad practice because performance problems
+windows.addEventListener('scroll', function () {
+  if (windows.scrollY > scrollCords.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+});
+
+// Because of that we use: The Intersection Observer API
+
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
