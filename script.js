@@ -166,6 +166,39 @@ windows.addEventListener('scroll', function () {
 
 // Because of that we use: The Intersection Observer API
 
+// const observerCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+
+// const obsOptions = {
+//   // root = viewport
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+
+// const observer = new IntersectionObserver(observerCallback, obsOptions);
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navheight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+  nav.classList.add('sticky');
+
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `${navheight}px`,
+});
+headerObserver.observe(header);
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
