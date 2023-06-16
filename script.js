@@ -224,24 +224,45 @@ allSections.forEach(function (section) {
 });
 
 ////////// Lazy loading images for better perfomance
-const imgTarget = document.querySelectorAll('.img[data-src]');
+const imgTargets = document.querySelectorAll('.img[data-src]');
+
+// const loadImg = function (entries, observer) {
+//   entries.forEach(entry => {
+//     if (!entry.isIntersecting) return;
+
+//     // Replace src with original image (data-src)
+//     const img = entry.target;
+//     img.src = img.dataset.src;
+
+//     img.addEventListener('load', function () {
+//       img.classList.remove('lazy-img');
+//     });
+//     observer.unobserve(img);
+//   });
+// };
+const removImage = function (image) {
+  image.src = image.dataset.src;
+  image.addEventListener('load', function () {
+    image.classList.remove('lazy-img');
+  });
+};
 
 const loadImg = function (entries, observer) {
-  const [entry] = entries;
-
-  if (!entry.isIntersecting) return;
-
-  // Replace src with orig img(data-src)
-  entry.target.src = entry.target.dataset.src;
-  entry.target.addEventListener('load', function (e) {});
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const img = entry.target;
+    removImage(img);
+    observer.unobserve(img);
+  });
 };
 
 const imgObserver = new IntersectionObserver(loadImg, {
   root: null,
   threshold: 0,
+  // rootMargin: '0px',
 });
 
-imgTarget.forEach(img => imgObserver.observe(img));
+imgTargets.forEach(img => imgObserver.observe(img));
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
