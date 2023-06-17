@@ -226,20 +226,6 @@ allSections.forEach(function (section) {
 ////////// Lazy loading images for better perfomance
 const imgTargets = document.querySelectorAll('.img[data-src]');
 
-// const loadImg = function (entries, observer) {
-//   entries.forEach(entry => {
-//     if (!entry.isIntersecting) return;
-
-//     // Replace src with original image (data-src)
-//     const img = entry.target;
-//     img.src = img.dataset.src;
-
-//     img.addEventListener('load', function () {
-//       img.classList.remove('lazy-img');
-//     });
-//     observer.unobserve(img);
-//   });
-// };
 const removImage = function (image) {
   image.src = image.dataset.src;
   image.addEventListener('load', function () {
@@ -267,58 +253,102 @@ imgTargets.forEach(img => imgObserver.observe(img));
 ///////// Building a slider component /////
 // move between element slides
 
-//slider
-const slides = document.querySelectorAll('.slide');
-const btnLeft = document.querySelector('.slider__btn--left');
-const btnRight = document.querySelector('.slider__btn--right');
+// Slider
+// Making it one big function
+const sliders = function () {
+  const slides = document.querySelectorAll('.slide');
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const dotContainer = document.querySelector('.dots');
 
-let currentSlide = 0;
-const maxSlide = slides.length;
+  let currentSlide = 0;
+  const maxSlide = slides.length;
 
-const slider = document.querySelector('.slider');
+  //functions
+  const createDots = function () {
+    slides.forEach(function (_, i) {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="dots__dot" data-slide="${i}"></button>`
+      );
+    });
+  };
 
-// slides.forEach((s, i) => (s.style.transform = `translateX(${100 * i}%)`));
-// 0% , 100% , 200%, 300% (cambio de imagenes)
+  const activateDot = function (slide) {
+    document
+      .querySelectorAll('.dots__dot')
+      .forEach(dot => dot.classList.remove('dots__dot--active'));
 
-// refactioning the code
-const goToSlide = function (slide) {
-  slides.forEach(
-    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
-  );
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      .classList.add('dots__dot--active');
+  };
+
+  // 0% , 100% , 200%, 300% (cambio de imagenes)
+
+  // refactioning the code
+  const goToSlide = function (slide) {
+    slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+    );
+  };
+
+  // Next slide
+  const nextSlide = function () {
+    if (currentSlide === maxSlide - 1) {
+      currentSlide = 0;
+    } else {
+      currentSlide++;
+    }
+    goToSlide(currentSlide);
+    activateDot(currentSlide);
+  };
+
+  // Previous slide
+  const prevSlide = function () {
+    if (currentSlide === 0) {
+      currentSlide = maxSlide - 1;
+    } else {
+      currentSlide--;
+    }
+    goToSlide(currentSlide);
+    activateDot(currentSlide);
+  };
+
+  //init
+  const init = function () {
+    goToSlide(0);
+    createDots();
+    activateDot(0);
+  };
+  init();
+
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
+
+  // Arrow btn function
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') prevSlide();
+    e.key === 'ArrowRight' && nextSlide();
+  });
+
+  //pt2
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      const { slide } = e.target.dataset;
+      goToSlide(slide);
+      activateDot(slide);
+    }
+  });
 };
-goToSlide(0);
 
-// Next slide
-const nextSlide = function () {
-  if (currentSlide === maxSlide - 1) {
-    currentSlide = 0;
-  } else {
-    currentSlide++;
-  }
-  goToSlide(currentSlide);
-};
+sliders();
 
-// Previous slide
-const prevSlide = function () {
-  if (currentSlide === 0) {
-    currentSlide = maxSlide - 1;
-  } else {
-    currentSlide--;
-  }
-  goToSlide(currentSlide);
-};
+//////// DOM Lifecycle elements
 
-btnRight.addEventListener('click', nextSlide);
-btnLeft.addEventListener('click', prevSlide);
-
-// Arrow btn function
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'ArrowLeft') prevSlide();
-  e.key === 'ArrowRight' && nextSlide();
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('HTML parse and DOM tree build!');
 });
-
-//pt2
-
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 
