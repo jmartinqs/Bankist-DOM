@@ -311,6 +311,14 @@ const prevSlide = function () {
 btnRight.addEventListener('click', nextSlide);
 btnLeft.addEventListener('click', prevSlide);
 
+// Arrow btn function
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft') prevSlide();
+  e.key === 'ArrowRight' && nextSlide();
+});
+
+//pt2
+
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 
