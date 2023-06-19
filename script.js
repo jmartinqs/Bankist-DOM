@@ -223,7 +223,7 @@ allSections.forEach(function (section) {
   section.classList.add('section--hidden');
 });
 
-////////// Lazy loading images for better perfomance
+////////// Lazy loading images for perfomance
 const imgTargets = document.querySelectorAll('.img[data-src]');
 
 const removImage = function (image) {
