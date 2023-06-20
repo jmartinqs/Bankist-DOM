@@ -225,30 +225,45 @@ allSections.forEach(function (section) {
 
 ////////// Lazy loading images for perfomance
 const imgTargets = document.querySelectorAll('.img[data-src]');
-
-const removImage = function (image) {
-  image.src = image.dataset.src;
-  image.addEventListener('load', function () {
-    image.classList.remove('lazy-img');
-  });
-};
+const imgSrcArray = Array.from(imgTargets).map(img => img.dataset.src);
+console.log(imgSrcArray);
 
 const loadImg = function (entries, observer) {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const img = entry.target;
-    removImage(img);
-    observer.unobserve(img);
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.removImage('lazy-img');
   });
+  observer.unobserve(entry.target);
 };
+
+// const removImage = function (image) {
+//   image.src = image.dataset.src;
+//   image.addEventListener('load', function () {
+//     image.classList.remove('lazy-img');
+//   });
+// };
+
+// const loadImg = function (entries, observer) {
+//   entries.forEach(entry => {
+//     if (!entry.isIntersecting) return;
+//     const img = entry.target;
+//     removImage(img);
+//     observer.unobserve(img);
+//   });
+// };
 
 const imgObserver = new IntersectionObserver(loadImg, {
   root: null,
   threshold: 0,
-  // rootMargin: '0px',
 });
 
-imgTargets.forEach(img => imgObserver.observe(img));
+imgSrcArray.forEach(img => imgObserver.observe(img));
+console.log(imgTargets.entries);
 
 ///////// Building a slider component /////
 // move between element slides
@@ -347,11 +362,11 @@ sliders();
 //////// DOM Lifecycle elements
 
 document.addEventListener('DOMContentLoaded', function (e) {
-  console.log('HTML parse and DOM tree build!', e);
+  // console.log('HTML parse and DOM tree build!', e);
 });
 
 window.addEventListener('load', function (e) {
-  console.log('Page fully loaded', e);
+  // console.log('Page fully loaded', e);
 });
 
 // msg that pops warning of page closure
