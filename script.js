@@ -226,7 +226,7 @@ allSections.forEach(function (section) {
 ////////// Lazy loading images for perfomance
 const imgTargets = document.querySelectorAll('.img[data-src]');
 const imgSrcArray = Array.from(imgTargets).map(img => img.dataset.src);
-console.log(imgSrcArray);
+// console.log(imgSrcArray);
 
 const loadImg = function (entries, observer) {
   const [entry] = entries;
@@ -263,7 +263,7 @@ const imgObserver = new IntersectionObserver(loadImg, {
 });
 
 imgSrcArray.forEach(img => imgObserver.observe(img));
-console.log(imgTargets.entries);
+// console.log(imgTargets.entries);
 
 ///////// Building a slider component /////
 // move between element slides
