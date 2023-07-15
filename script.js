@@ -224,46 +224,56 @@ allSections.forEach(function (section) {
 });
 
 ////////// Lazy loading images for perfomance
-const imgTargets = document.querySelectorAll('.img[data-src]');
-const imgSrcArray = Array.from(imgTargets).map(img => img.dataset.src);
-// console.log(imgSrcArray);
+// const imageTargets = document.querySelectorAll('img[data-src]');
+// const imageSrcArray = Array.from(imageTargets).map(img => img.dataset.src);
+// console.log(imageTargets);
 
-const loadImg = function (entries, observer) {
-  const [entry] = entries;
+// const loadImage = function (entries, observer) {
+//   const [entry] = entries;
 
-  if (!entry.isIntersecting) return;
+//   if (!entry.isIntersecting) return;
 
-  entry.target.src = entry.target.dataset.src;
+//   entry.target.src = entry.target.dataset.src;
 
-  entry.target.addEventListener('load', function () {
-    entry.target.classList.removImage('lazy-img');
+//   entry.target.addEventListener('load', function () {
+//     entry.target.classList.remove('.lazy-img');
+//   });
+//   observer.unobserve(entry.target);
+// };
+
+// const imgObserver = new IntersectionObserver(loadImage, {
+//   root: null,
+//   threshold: 0,
+// });
+
+// imageSrcArray.forEach(img => imgObserver.observe(img));
+////////////////////////////////////////////////////////////
+const imgTargets = document.querySelectorAll('img[data-src]');
+console.log(imgTargets);
+
+const removeLazyImg = function (image) {
+  image.src = image.dataset.src;
+  image.addEventListener('load', function () {
+    image.classList.remove('lazy-img');
   });
-  observer.unobserve(entry.target);
 };
 
-// const removImage = function (image) {
-//   image.src = image.dataset.src;
-//   image.addEventListener('load', function () {
-//     image.classList.remove('lazy-img');
-//   });
-// };
-
-// const loadImg = function (entries, observer) {
-//   entries.forEach(entry => {
-//     if (!entry.isIntersecting) return;
-//     const img = entry.target;
-//     removImage(img);
-//     observer.unobserve(img);
-//   });
-// };
+const loadImg = function (entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      removeLazyImg(img);
+      observer.unobserve(img);
+    }
+  });
+};
 
 const imgObserver = new IntersectionObserver(loadImg, {
   root: null,
-  threshold: 0,
+  threshold: 0.1,
 });
 
-imgSrcArray.forEach(img => imgObserver.observe(img));
-// console.log(imgTargets.entries);
+imgTargets.forEach(img => imgObserver.observe(img));
 
 ///////// Building a slider component /////
 // move between element slides
